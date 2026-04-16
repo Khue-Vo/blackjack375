@@ -1,3 +1,4 @@
+// main.js
 import Game from "./game.js";
 import { updateUsername } from "../utils.js";
 
@@ -29,8 +30,17 @@ let gameHistory = [];
 let lastResult = "Place a bet to deal.";
 let winCount = 0;
 let lossCount = 0;
-
 let delayDealerReveal = false;
+
+// Helper function to create an image element for a card (UI rendering)
+function createCardElement(card) {
+    const cardImg = document.createElement("img");
+    cardImg.src = card.imgPath;
+    cardImg.alt = `${card.name} of ${card.suit}`;
+    cardImg.classList.add("card");
+    return cardImg;
+}
+
 
 homeBtn.addEventListener("click", () => {
     window.location.href = "index.html";
@@ -42,6 +52,7 @@ window.addEventListener("keydown", (event) => {
         window.location.href = "index.html";
     }
 });
+
 
 async function loadInitialBalance() {
     try {
