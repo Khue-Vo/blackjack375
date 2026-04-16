@@ -19,6 +19,7 @@ class Deck {
      */
     constructor() {
         this.cards = [];
+        this.cardBackPath = "";
     }
 
     
@@ -34,10 +35,17 @@ class Deck {
         try {
             // Fetch card values from config
             const response = await fetch('../scripts/config.json');
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+
             const data = await response.json();
+
+            // Store card back image path for later use in UI rendering
             this.cardBackPath = data.assets.cardBack;
             this.cards = [];
 
+            // Create cards based on suits and card info from config
             for (let suit of data.suits) {
                 for (let cardInfo of data.cards) {
                     const newCard = new Card(suit, cardInfo.name, cardInfo.value);
@@ -71,6 +79,10 @@ class Deck {
      * @returns {Card|undefined} The dealt card, or undefined if the deck is empty
      */
     dealCard() {
+        if (this.cards.length === 0) {
+            console.warn("Deck is empty! Cannot deal more cards.");
+            return null;
+        }
         return this.cards.pop();
     }
 }
