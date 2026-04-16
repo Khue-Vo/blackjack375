@@ -1,6 +1,12 @@
+<<<<<<< HEAD:scripts/main.js
 // main.js
 import Game from "./game.js";
+=======
+import Game from "./game-logic.js";
+import { gameState, resetRoundState } from "./game-state.js";
+>>>>>>> fix:scripts/player/main.js
 import { updateUsername } from "../utils.js";
+import { initHomeButton } from "../navigation.js";
 
 const game = new Game(updateUsername());
 
@@ -24,6 +30,7 @@ const historyList = document.querySelector("#historyList");
 const winDisplay = document.querySelector("#win");
 const lossDisplay = document.querySelector("#loss");
 
+<<<<<<< HEAD:scripts/main.js
 let playerMoney = 1000;
 let currentBet = 0;
 let gameHistory = [];
@@ -112,6 +119,17 @@ function createCardElement(card) {
 
 
 
+=======
+// Initialize game state variables
+let playerMoney = gameState.playerMoney;
+let currentBet = gameState.currentBet;
+let gameHistory = gameState.gameHistory;
+let lastResult = gameState.lastResult;
+let winCount = gameState.winCount;
+let lossCount = gameState.lossCount;
+let delayDealerReveal = false;
+
+>>>>>>> fix:scripts/player/main.js
 async function loadInitialBalance() {
     try {
         const response = await fetch("./scripts/config.json");
@@ -153,7 +171,7 @@ function updateHistoryList() {
 function updateBettingDisplay() {
     balanceDisplay.textContent = formatCurrency(playerMoney);
     currentBetDisplay.textContent = formatCurrency(currentBet);
-    lastResultDisplay.textContent = lastResult;
+    lastResultDisplay.textContent = gameState.lastResult;
     updateHistoryList();
 }
 
@@ -171,13 +189,7 @@ function setGameplayActive(isActive) {
 function setWaitingForBetState(message = "Place a bet to deal.") {
     delayDealerReveal = false;
     currentBet = 0;
-    game.playerHands = [[]];
-    game.currentHandIndex = 0;
-    game.dealerHand = [];
-    game.isRoundOver = true;
-    game.splitMode = false;
-    game.roundResults = [];
-    game.statusMessage = message;
+    resetRoundState(game);
 
     setGameplayActive(false);
     showHands();
@@ -228,9 +240,9 @@ async function startRoundFromBet() {
         return;
     }
 
-    currentBet = betAmount;
-    playerMoney -= betAmount;
-    lastResult = `Bet placed: $${betAmount}`;
+    gameState.currentBet = betAmount;
+    gameState.playerMoney -= betAmount;
+    gameState.lastResult = `Bet placed: $${betAmount}`;
     setGameplayActive(true);
     updateBettingDisplay();
     updateButtons();
@@ -561,6 +573,7 @@ function showHands() {
     gameStatus.textContent = game.statusMessage;
 }
 
+initHomeButton();
 updateWinLossDisplay();
 setWaitingForBetState();
 loadInitialBalance();
