@@ -34,7 +34,7 @@ class Deck {
     async createDeck() {
         try {
             // Fetch card values from config
-            const response = await fetch('../scripts/config.json');
+            const response = await fetch(new URL("../config.json", import.meta.url));
             if (!response.ok) {
                 throw new Error(`HTTP error! status: ${response.status}`);
             }
