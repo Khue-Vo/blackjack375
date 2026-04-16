@@ -41,9 +41,11 @@ async function loadInitialBalance() {
 
         const data = await response.json();
         playerMoney = data.initialState.defaultBankroll || 1000;
+        gameState.playerMoney = playerMoney;
     } catch (error) {
         console.error("Error loading initial balance:", error);
         playerMoney = 1000;
+        gameState.playerMoney = playerMoney;
     }
 
     updateBettingDisplay();
@@ -93,6 +95,7 @@ function setGameplayActive(isActive) {
 function setWaitingForBetState(message = "Place a bet to deal.") {
     delayDealerReveal = false;
     currentBet = 0;
+    gameState.currentBet = 0;
     resetRoundState(game);
 
     setGameplayActive(false);
@@ -109,14 +112,18 @@ function finalizeRound() {
 
     if (result === "win") {
         playerMoney += settledBet * 2;
+        gameState.playerMoney = playerMoney;
         winCount++;
-        lastResult = `Win! Paid $${settledBet * 2}.`;
+        gameState.winCount = winCount;
+        gameState.lastResult = `Win! Paid $${settledBet * 2}.`;
     } else if (result === "tie") {
         playerMoney += settledBet;
-        lastResult = `Tie. Returned $${settledBet}.`;
+        gameState.playerMoney = playerMoney;
+        gameState.lastResult = `Tie. Returned $${settledBet}.`;
     } else {
         lossCount++;
-        lastResult = `Loss. Lost $${settledBet}.`;
+        gameState.lossCount = lossCount;
+        gameState.lastResult = `Loss. Lost $${settledBet}.`;
     }
 
     gameHistory.push({
@@ -126,6 +133,7 @@ function finalizeRound() {
     });
 
     currentBet = 0;
+    gameState.currentBet = 0;
     updateWinLossDisplay();
     updateBettingDisplay();
     updateButtons();
@@ -147,6 +155,10 @@ async function startRoundFromBet() {
     gameState.currentBet = betAmount;
     gameState.playerMoney -= betAmount;
     gameState.lastResult = `Bet placed: $${betAmount}`;
+    currentBet = gameState.currentBet;
+    playerMoney = gameState.playerMoney;
+    lastResult = gameState.lastResult;
+
     setGameplayActive(true);
     updateBettingDisplay();
     updateButtons();
