@@ -1,4 +1,4 @@
-import Game from "./game.js";
+import Game from "./game-logic.js";
 import { updateUsername } from "../utils.js";
 
 const game = new Game(updateUsername());
@@ -31,17 +31,6 @@ let winCount = 0;
 let lossCount = 0;
 
 let delayDealerReveal = false;
-
-homeBtn.addEventListener("click", () => {
-    window.location.href = "index.html";
-});
-
-window.addEventListener("keydown", (event) => {
-    if (event.key === "Esc" || event.key === "Escape") {
-        event.preventDefault();
-        window.location.href = "index.html";
-    }
-});
 
 async function loadInitialBalance() {
     try {
