@@ -1,10 +1,5 @@
-<<<<<<< HEAD:scripts/main.js
-// main.js
-import Game from "./game.js";
-=======
 import Game from "./game-logic.js";
 import { gameState, resetRoundState } from "./game-state.js";
->>>>>>> fix:scripts/player/main.js
 import { updateUsername } from "../utils.js";
 import { initHomeButton } from "../navigation.js";
 
@@ -30,96 +25,6 @@ const historyList = document.querySelector("#historyList");
 const winDisplay = document.querySelector("#win");
 const lossDisplay = document.querySelector("#loss");
 
-<<<<<<< HEAD:scripts/main.js
-let playerMoney = 1000;
-let currentBet = 0;
-let gameHistory = [];
-let lastResult = "Place a bet to deal.";
-let winCount = 0;
-let lossCount = 0;
-let delayDealerReveal = false;
-
-//Join Game button logic
-async function joinGame () {
-    try {
-        const response = await fetch('./scripts/config.json');
-        const data = await response.json();
-    
-        const nameInput = document.getElementById('nameInput').value.trim();
-        let finalUsername = nameInput || data.initialState.defaultUsername;
-
-        if (finalUsername) {
-            localStorage.setItem('username', finalUsername);
-        }
-
-        window.location.href = "player.html";
-    } catch (error) {
-        console.error('Error saving username to localStorage:', error);
-    }
-}
-const joinGameBtn = document.getElementById('join');
-joinGameBtn.addEventListener('click', joinGame);
-// Allow pressing Enter to join game
-window.addEventListener('keydown', event => {
-    if (event.key === 'Enter') {
-        event.preventDefault();
-        joinGame();
-    }
-});
-// Pressing Esc to return to home page
-window.addEventListener("keydown", (event) => {
-    if (event.key === "Esc" || event.key === "Escape") {
-        event.preventDefault();
-        window.location.href = "index.html";
-    }
-});
-// Pressing I for instructions
-window.addEventListener('keydown', event => {
-    if (event.key === 'I' || event.key === 'i') {
-        event.preventDefault();
-        window.location.href = "instruction.html";
-    }
-});
-//Pressing L for leaderboard
-window.addEventListener('keydown', event => {
-    if (event.key === 'L' || event.key === 'l') {
-        event.preventDefault();
-        window.location.href = "leaderboard.html";
-    }
-});
-// Home click button 
-homeBtn.addEventListener("click", () => {
-    window.location.href = "index.html";
-});
-// Instructions click button 
-const instructionBtn = document.getElementById('instruction');
-instructionBtn.addEventListener('click', () => {
-    window.location.href = "instruction.html";
-});
-// Leaderboard click button 
-const leaderboardBtn = document.getElementById('leaderboard');
-leaderboardBtn.addEventListener('click', () => {
-    window.location.href = "leaderboard.html";
-});
-
-
-
-
-// Helper function to create an image element for a card (UI rendering)
-function createCardElement(card) {
-    const cardImg = document.createElement("img");
-    cardImg.src = card.imgPath;
-    cardImg.alt = `${card.name} of ${card.suit}`;
-    cardImg.classList.add("card");
-    return cardImg;
-}
-
-
-
-
-
-
-=======
 // Initialize game state variables
 let playerMoney = gameState.playerMoney;
 let currentBet = gameState.currentBet;
@@ -129,7 +34,6 @@ let winCount = gameState.winCount;
 let lossCount = gameState.lossCount;
 let delayDealerReveal = false;
 
->>>>>>> fix:scripts/player/main.js
 async function loadInitialBalance() {
     try {
         const response = await fetch("./scripts/config.json");
