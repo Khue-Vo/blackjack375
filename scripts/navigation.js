@@ -45,7 +45,6 @@ export function initKeyboardNavigation() {
     window.addEventListener("keydown", event => {
         switch (event.key.toLowerCase()) {
             case "escape":
-            case "h":
                 window.location.href = "index.html";
                 break;
 
