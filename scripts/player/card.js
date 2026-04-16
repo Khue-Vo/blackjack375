@@ -36,3 +36,5 @@ class Card {
         return cardImg;
     }
 }
+
+export default Card;
