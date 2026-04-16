@@ -11,10 +11,11 @@
 7. leaderboard.js: Handled the display of high scores and navigation back to the home page.
 8. utils.js: Contributed helper functions used across multiple pages, such as updating the displayed username from localStorage.
 #### Problems with the Structure:
-- Each JavaScript file is not true modules. The logic relied on Global Scope, meaning that each file had to be loaded in a specific order to the HTML files for the game to work. If not, the game would break. It also means that many variables (playerMoney, currentBet, etc.) were accesible by every scripts, making it hard to prevent overrides.
-- The responsibilities are mixed as well. Some JavaScript files contain more than 1 type of logic (main.js, game.js for game logic and DOM manipulation), making it difficult to track where a piece of data was being modified, increasing the risk of breaking the code when bugs occur. The same type of logic is stored in different files as well (instruction.js, leaderboard.js for UI).
+- Overlapping responsibilities: the instruction.js and leaderboard.js share the same navigation to Home page.
+- Mixing responsibilities: the main.js file contains DOM updates, event handlers, game state, and betting logic all mixed together.
+- Loading duplication: deck.js and main.js both fetch config.json.
 #### Visualization of Current Code Organization:
-![image](https://lucid.app/publicSegments/view/6a751f5b-94c8-4ea2-ae49-1fd434d7088c/image.png)
+![image](https://lucid.app/publicSegments/view/c7f65bc6-9282-4558-a9ab-2c35bc0d2806/image.png)
 ### 1.2 Proposed Modular Design
 #### Proposed Modules
 ##### Module 1 - card.js: Defines the Card data structure and basic visual properties for an individual playing card. 
