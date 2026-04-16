@@ -18,28 +18,39 @@
 ![image](https://lucid.app/publicSegments/view/c7f65bc6-9282-4558-a9ab-2c35bc0d2806/image.png)
 ### 1.2 Proposed Modular Design
 #### Proposed Modules
-##### Module 1 - card.js: Defines the Card data structure and basic visual properties for an individual playing card. 
-- "Card" class : Encapsulates card properties (suit, name, value).
-- "this.imgPath": Variable that stores the specific asset path for the card's image.
-- "export default Card": Allows other modules to instantiate new card objects.
-##### Module 2 - deck.js: Manages the creation, shuffling, and dealing of the 52-card deck. 
-- "Deck" class : A container for the cards array and the "cardBackPath".
-- "createDeck()": An asynchronous method that fetches "config.json" and populates the deck.
-- "shuffleDeck()": Implementation of the Fisher-Yates algorithm to randomize card order.
-- "dealCard()": Method to pop and return the top card from the deck array.
-##### Module 3 - game.js: Acts as the game engine by managing the state of the game round and enforcing the rules. 
-- "Game" class : Manages "playerHands", "dealerHand", and tracks "isRoundOver" and game mode such as "splitMode".
-- "calculateScore(hand)": Pure logic to calculate totals and handle Ace adjustments.
-- "hit() / stand() / splitHand()/ etc.": Methods that update internal game state based on actions.
-- "getRoundResult()": Determines the outcome (win/loss/tie) for betting settlement.
-##### Module 4 - util.js: Contributed helper functions used across multiple pages, such as updating the displayed username from localStorage. 
-- "updateUsername()": Retrieves the username from "localStorage" and updates the DOM if the element exists.
-##### Module 5 - main.js: Acts as the central controller for the player page, it coordinates between the UI and game logic. 
-- "game": An instance of the "Game" class
--  "showHands()": Orchestrates the visual rendering of the dealer and player hands
--  Event Listeners: Manages all user interactions (drag-and-drop, buttons, and betting).
+##### Module 1 - card.js: Defined the structure of a single card and handles its visual representation.
+- class Card
+##### Module 2 - deck.js: Manages the collection of cards, including initialization and randomization.
+- class Deck
+##### Module 3 - game-logic.js: Managed the high-level game state, including player hands, dealer hands, scoring logic, and win/loss calculations.
+- class Game
+##### Module 4 - game-state.js: Tracks the current status of the game. 
+- gameState: Sets up initial state of game.
+- resetRoundState(game): Reset the game back to initial state.
+##### Module 5 - betting.js: Manages the betting system, including current stakes, and bankroll updates.
+- placeBet(amount): Function to place an amount of bet.
+- settleBet(result): Function to calculate amount of money win/loss based on bet result.
+##### Module 6 - ui-controler.js: Manages all direct updates to the HTML, including score displays and message alerts.
+- ui: Setting up the game play ground before placing the first bet.
+- setGameplayActive(active): Setting up the game play ground after placing a bet.
+- updateBettingDisplay(), updateWinLossDisplay(), updateHistoryList(): Updating the game play ground based on the progress of the game.
+##### Module 7 - game-action.js: Attaches and manages listeners for player actions.
+- startRound(game, betAmount): Function to start a round of game play.
+- dealerTurn(game): Funtion to run dealer's turn after player's turn is done.
+##### Module 8 - game.js: Acts as the central controller for the game play, it coordinates between the UI and game logic.
+##### Module 9 - util.js: Contributed helper functions used across multiple pages, such as updating the displayed username from localStorage.
+- updateUsername()
+##### Module 10 - navigation.js: Handles all transitions between the home page, instructions, leaderboard, and the game play ground.
+- initHomeButton(), initInstructionButton(), initJoinButton(), initLeaderboardButton(), initKeyboardNavigation(), initNavListeners(): Sets up click and keyboard events for all navigate buttons (Home, Join Game, Instruction, Leaderboard).
 #### Visualization of Proposed Code Organization:
-![image](https://lucid.app/publicSegments/view/2f0ba05a-5111-4e68-9c3d-4d6e0252d9e9/image.png)
+![image](https://lucid.app/publicSegments/view/7baf3079-49e8-41bd-b0f6-0f8f32fbd782/image.png)
 ## Task 2: Implementation Details
-### Refactor 1:
-### Refactor 2:
+### Refactor 1: Navigation Module
+- Remove leaderboard.js and instructions.js: Removes the duplicated navigation code.
+- Add navigation.js: Creates the module specifically for navigating between UIs, other modules don't have to recode anymore, just import the functions from navigation.js
+- Update leaderboard.html and instructions.html: link to navigation.js to use the navigate buttons.
+- Update home.js: import and use the Home, Instruction, and Leaderboard buttons from the navigation module; keep the orginal code for Join button for loading username to localStorage.
+- Update main.js: import and use the Home button from the navigation module.
+### Refactor 2: Game State Module
+- Add game-state.js: Creates the module specifically for setting up initial state of game, containt the initial state and the reset function.
+- Update main.js: change initial game state code from hard-code data to data import from game-state.js; import resetRoundState() function to reset a game.
