@@ -1,12 +1,35 @@
 // deck.js
 import Card from "./card.js";
 
+
+/**
+ * Represents a deck of playing cards.
+ * Provides methods to create a standard 52-card deck,
+ * shuffle it, and deal cards.
+ *
+ * Card data is loaded from a configuration file (config.json),
+ * which defines suits, card names, values, and asset paths.
+ *
+ * @see Card
+ */
+
 class Deck {
+    /**
+     * Creates a new, empty Deck instance.
+     */
     constructor() {
         this.cards = [];
     }
 
-    // Create the 52-card deck
+    
+    
+    /**
+     * Creates a standard 52-card deck using configuration data.
+     * Fetches suit and card information from config.json,
+     * initializes Card objects, and stores the card back image path.
+     *
+     * @returns {Promise<void>}
+     */
     async createDeck() {
         try {
             // Fetch card values from config
@@ -27,7 +50,13 @@ class Deck {
         }
     }
 
-    // Fisher-Yates Shuffle Algorithm
+
+    /**
+     * Randomizes the order of cards in the deck using
+     * the Fisher-Yates shuffle algorithm.
+     *
+     * @returns {void}
+     */
     shuffleDeck() {
         for (let i = this.cards.length - 1; i > 0; i--) {
             let j = Math.floor(Math.random() * (i + 1));
@@ -35,7 +64,12 @@ class Deck {
         }
     }
 
-    // Deal one card
+
+    /**
+     * Deals one card from the top of the deck.
+     *
+     * @returns {Card|undefined} The dealt card, or undefined if the deck is empty
+     */
     dealCard() {
         return this.cards.pop();
     }

@@ -1,3 +1,10 @@
+/**
+ * Reads the username from localStorage 
+ * and updates username element if it exists.
+ * 
+ * @returns {string} The username that was updated in the DOM
+ */
+
 export function updateUsername() {
     // READ: Get from storage
     const username = localStorage.getItem('username') || "Player";

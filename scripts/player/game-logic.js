@@ -2,7 +2,20 @@
 
 import Deck from "./deck.js";
 
+
+/**
+ * Represents the core game logic for a blackjack game.
+ * Manages player actions (hit, double, split, surrender), dealer actions, 
+ * score calculations, and round results.
+ * 
+ */
 class Game {
+
+    /**
+     * Creates a new Game instance.
+     * 
+     * @param {string} username - The player's display name.
+     */
     constructor(username) {
         this.deck = new Deck();
         this.username = username || "Player";
@@ -17,6 +30,13 @@ class Game {
         this.roundResults = [];
     }
 
+    /**
+     * Starts a new blackjack round.
+     * Deals initial cards and checks for blackjack conditions.
+     *
+     * @returns {Promise<void>}
+     * 
+     */
     async startGame() {
         await this.deck.createDeck();
         this.deck.shuffleDeck();
@@ -53,10 +73,21 @@ class Game {
         }
     }
 
+    /**
+     * Gets the current active player hand.
+     *
+     * @returns {Array<Object>} The current hand
+     */
     getCurrentHand() {
         return this.playerHands[this.currentHandIndex];
     }
 
+    /**
+     * Calculates the blackjack score for a hand.
+     *
+     * @param {Array<{value:number, name:string}>} hand - Player or dealer hand
+     * @returns {number} Calculated hand score
+     */
     calculateScore(hand) {
         let total = 0;
         let aces = 0;
@@ -74,14 +105,29 @@ class Game {
         return total;
     }
 
+    /**
+     * Returns the current player's hand score.
+     *
+     * @returns {number}
+     */
     getPlayerScore() {
         return this.calculateScore(this.getCurrentHand());
     }
 
+    /**
+     * Returns the dealer's hand score.
+     *
+     * @returns {number}
+     */
     getDealerScore() {
         return this.calculateScore(this.dealerHand);
     }
 
+    /**
+     * Deals a card to the current player hand.
+     * 
+     * @returns {Object|null}
+     */
     hit() {
         if (this.isRoundOver) return null;
 
@@ -98,10 +144,20 @@ class Game {
         return card;
     }
 
+    /**
+     * Checks if the current hand is bust.
+     *
+     * @returns {boolean}
+     */
     isCurrentHandBust() {
         return this.calculateScore(this.getCurrentHand()) > 21;
     }
 
+    /**
+     * Checks if all player hands are bust.
+     *
+     * @returns {boolean}
+     */
     allHandsBust() {
         return this.playerHands.every(hand => this.calculateScore(hand) > 21);
     }
@@ -117,11 +173,20 @@ class Game {
         }
         return false;
     }
-
+    /**
+     * Determines if the player can double down.
+     *
+     * @returns {boolean}
+     */
     canDouble() {
         return !this.isRoundOver && this.getCurrentHand().length === 2;
     }
 
+    /**
+     * Doubles the current hand and draws exactly one card.
+     *
+     * @returns {Object|null}
+     */
     doubleCurrentHand() {
         if (!this.canDouble()) return null;
 
@@ -134,6 +199,10 @@ class Game {
         return this.hit();
     }
 
+    /**
+     * 
+     * @returns {}
+     */
     canSplit() {
         const hand = this.getCurrentHand();
 
@@ -214,6 +283,11 @@ class Game {
         this.isRoundOver = true;
     }
 
+    /**
+     * Ends the round by surrendering.
+     *
+     * @returns {boolean}
+     */
     canSurrender() {
         return (
             !this.isRoundOver &&
@@ -231,6 +305,12 @@ class Game {
         return true;
     }
 
+    
+    /**
+     * Determines the overall result of the round.
+     *
+     * @returns {"win"|"loss"|"tie"|null}
+     */
     getRoundResult() {
         if (this.roundResults.length === 0) return null;
 
