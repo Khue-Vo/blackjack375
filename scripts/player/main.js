@@ -1,5 +1,6 @@
 import Game from "./game-logic.js";
 import { updateUsername } from "../utils.js";
+import { initHomeButton } from "../navigation.js";
 
 const game = new Game(updateUsername());
 
@@ -481,6 +482,7 @@ function showHands() {
     gameStatus.textContent = game.statusMessage;
 }
 
+initHomeButton();
 updateWinLossDisplay();
 setWaitingForBetState();
 loadInitialBalance();

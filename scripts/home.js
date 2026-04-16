@@ -1,7 +1,8 @@
 // home.js
-import { initInstructionButton, initLeaderboardButton, initKeyboardNavigation } from "./navigation.js";
+import { initHomeButton, initInstructionButton, initLeaderboardButton, initKeyboardNavigation } from "./navigation.js";
 
 // Initialize navigation
+initHomeButton();
 initInstructionButton();
 initLeaderboardButton();
 initKeyboardNavigation();
