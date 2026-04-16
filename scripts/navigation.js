@@ -1,47 +1,74 @@
-export default function initNavigation() {
+// navigation.js
+
+// Home button logic
+export function initHomeButton() {
     const homeBtn = document.getElementById("home");
-    if (homeBtn) {
-        homeBtn.addEventListener("click", () => {
-            window.location.href = "index.html";
-        });
-    }
+    if (!homeBtn) return;
 
+    homeBtn.addEventListener("click", () => {
+        window.location.href = "index.html";
+    });
+}
+
+// Instruction button logic
+export function initInstructionButton() {
     const instructionBtn = document.getElementById("instruction");
-    if (instructionBtn) {
-        instructionBtn.addEventListener("click", () => {
-            window.location.href = "instruction.html";
-        });
-    }
+    if (!instructionBtn) return;
 
+    instructionBtn.addEventListener("click", () => {
+        window.location.href = "instruction.html";
+    });
+}
+
+// Join button logic
+export function initJoinButton() {
     const joinBtn = document.getElementById("join");
-    if (joinBtn) {
-        joinBtn.addEventListener("click", () => {
-            window.location.href = "player.html";
-        });
-    }
+    if (!joinBtn) return;
 
+    joinBtn.addEventListener("click", () => {
+        window.location.href = "player.html";
+    });
+}
+
+// Leaderboard button logic
+export function initLeaderboardButton() {
     const leaderboardBtn = document.getElementById("leaderboard");
-    if (leaderboardBtn) {
-        leaderboardBtn.addEventListener("click", () => {
-            window.location.href = "leaderboard.html";
-        });
-    }
+    if (!leaderboardBtn) return;
 
+    leaderboardBtn.addEventListener("click", () => {
+        window.location.href = "leaderboard.html";
+    });
+}
+
+// Keyboard shortcuts for navigation
+export function initKeyboardNavigation() {
     window.addEventListener("keydown", event => {
         switch (event.key.toLowerCase()) {
-            case 'escape':
+            case "escape":
+            case "h":
                 window.location.href = "index.html";
                 break;
-            case 'i':
+
+            case "i":
                 window.location.href = "instruction.html";
                 break;
-            case 'l':
+
+            case "l":
                 window.location.href = "leaderboard.html";
                 break;
-            case 'enter':
-            case 'enter':
+
+            case "enter":
                 window.location.href = "player.html";
                 break;
         }
     });
+}
+
+// Initialize all navigation buttons
+export function initNavigation() {
+    initHomeButton();
+    initInstructionButton();
+    initJoinButton();
+    initLeaderboardButton();
+    initKeyboardNavigation();
 }
